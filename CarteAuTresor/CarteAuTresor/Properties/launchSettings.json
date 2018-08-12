@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CarteAuTresor": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\Heffiros\\Desktop\\CarteAuTresor\\map.txt"
+    }
+  }
+}
