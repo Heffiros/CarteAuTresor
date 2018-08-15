@@ -9,6 +9,8 @@ namespace CarteAuTresor
     {
         private string pathToFile;
         private string pathToOutFile;
+        private string listOfcellOption = "CMTA";
+        private Map map;
 
         public FileManager(string pathToFile)
         {
@@ -31,7 +33,23 @@ namespace CarteAuTresor
             System.IO.StreamReader file = new System.IO.StreamReader(this.pathToFile);
             while ((line = file.ReadLine()) != null)
             {
-                System.Console.WriteLine(line);
+                //We check if the first line of the text is the definition of the map
+                if (counter == 0 &&  line[0] != 'C') {
+                    throw new Exception("First Line has to be the definition of the map and begin by the C");
+                }
+
+                //Check if the param in the file is correct and we create the cell on the map
+                if (listOfcellOption.Contains(line[0].ToString()))
+                {
+                    //The first line create the map
+                    if (counter == 0)
+                    {
+                        map = new Map(line);
+                    } else
+                    {
+                        map.generateCell(line);
+                    }
+                }
                 counter++;
             }
             file.Close();
