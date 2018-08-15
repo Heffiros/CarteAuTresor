@@ -8,10 +8,10 @@ namespace CarteAuTresor
     {
         public int x;
         public int y;
-        public bool isWakable;
+        public bool isWalkable;
 
 
         abstract public int onTheCell();
-        
+        abstract public string affCell();
     }
 }

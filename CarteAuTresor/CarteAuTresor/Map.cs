@@ -11,16 +11,23 @@ namespace CarteAuTresor
         public Map(String line)
         {
             //TODO : check if we can better access to lineopt[value] and verify if is good number
-
-            line = line.Replace(" ", string.Empty);
-            string[] lineOpt = line.Split('-');
+            string[] lineOpt = cleanStringOption(line);
             map = new Cell[Int32.Parse(lineOpt[2]), Int32.Parse(lineOpt[1])];
-            printMap();
         }
 
 
         public bool generateCell(String line)
         {
+            string[] lineOpt = cleanStringOption(line);
+            
+            if (lineOpt[0] == "M")
+            {
+                map[Int32.Parse(lineOpt[2]), Int32.Parse(lineOpt[1])] = new MountainCell();
+            }
+            else if (lineOpt[0] == "T")
+            {   
+                map[Int32.Parse(lineOpt[2]), Int32.Parse(lineOpt[1])] = new TreasureCell(Int32.Parse(lineOpt[3]));
+            }
             return true;
         }
 
@@ -34,10 +41,25 @@ namespace CarteAuTresor
             {
                 for (int j = 0; j < colLength; j++)
                 {
-                    Console.Write(string.Format("{0} ", /*map[i, j]*/ ".  "));
+                    if (map[i, j] != null)
+                    {
+                        Console.Write(map[i, j].affCell());
+                    }
+                    else
+                    {
+                        Console.Write(string.Format("{0} ", /*map[i, j]*/ ".  "));
+                    }
+                    
                 }
                 Console.Write(Environment.NewLine + Environment.NewLine);
             }
+        }
+
+
+        private string[] cleanStringOption(String line)
+        {
+            line = line.Replace(" ", string.Empty);
+            return (line.Split('-'));
         }
 
     }
