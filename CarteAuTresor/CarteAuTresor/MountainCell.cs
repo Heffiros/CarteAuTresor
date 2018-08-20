@@ -6,6 +6,11 @@ namespace CarteAuTresor
 {
     class MountainCell : Cell
     {
+        public MountainCell()
+        {
+            this.isWalkable = false;
+        }
+
         public override int onTheCell()
         {
             throw new NotImplementedException();
@@ -14,7 +19,7 @@ namespace CarteAuTresor
         
         public override string affCell()
         {
-            return ("M  ");
+            return ("M    ");
             throw new NotImplementedException();
         }
     }

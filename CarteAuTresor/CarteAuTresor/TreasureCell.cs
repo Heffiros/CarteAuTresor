@@ -11,11 +11,12 @@ namespace CarteAuTresor
         public TreasureCell(int nbTreasure)
         {
             this.nbTreasure = nbTreasure;
+            this.isWalkable = true;
         }
 
         public override string affCell()
         {
-            return "T(" + nbTreasure.ToString() + ")";
+            return "T(" + nbTreasure.ToString() + ")    ";
         }
 
         public override int onTheCell()
