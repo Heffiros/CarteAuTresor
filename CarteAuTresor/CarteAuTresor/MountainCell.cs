@@ -19,8 +19,8 @@ namespace CarteAuTresor
         
         public override string affCell()
         {
-            return ("M    ");
-            throw new NotImplementedException();
+            return "M - ";
+            
         }
     }
 }

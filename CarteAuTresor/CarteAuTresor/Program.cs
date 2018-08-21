@@ -12,6 +12,9 @@ namespace CarteAuTresor
             } else {
                 FileManager fileManager = new FileManager(args[0]);
                 fileManager.readFileMap();
+                //TO DO rajouter les trésors au users;
+                fileManager.map.mapSimulationPath();
+                fileManager.createOutputFile();
             }
             Console.WriteLine("Press any key to exit.");
             Console.ReadKey();

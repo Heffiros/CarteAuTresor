@@ -6,9 +6,9 @@ namespace CarteAuTresor
 {
     class Map
     {
-        Cell[,] map;
-        int sizeX, sizeY;
-        List<AdventurerCell> AdventureCell = new List<AdventurerCell>();
+        public Cell[,] map;
+        public int sizeX, sizeY;
+        public List<AdventurerCell> AdventureCell = new List<AdventurerCell>();
         
 
         public Map(String line)
@@ -35,7 +35,7 @@ namespace CarteAuTresor
             }
             else if (lineOpt[0] == "A")
             {
-                AdventurerCell adventurer = new AdventurerCell(lineOpt[1], lineOpt[4], lineOpt[5], Int32.Parse(lineOpt[2]), Int32.Parse(lineOpt[3]));
+                AdventurerCell adventurer = new AdventurerCell(lineOpt[1], lineOpt[4], lineOpt[5], Int32.Parse(lineOpt[3]), Int32.Parse(lineOpt[2]));
                 //map[Int32.Parse(lineOpt[3]), Int32.Parse(lineOpt[2])] = adventurer; 
                 AdventureCell.Add(adventurer);
             }
@@ -44,10 +44,10 @@ namespace CarteAuTresor
 
         public void mapSimulationPath()
         {
+            Simulation simulation = new Simulation();
             int actualX, newX;
             int actualY, newY;
             int i = 0;
-            Simulation simulation = new Simulation();
             
             while (AdventureCell.FindAll(adventurer => adventurer.flagAction == true).Count != 0)
             {
@@ -55,27 +55,26 @@ namespace CarteAuTresor
                 {
                     if (i > adventurer.roadPath.Length - 1)
                     {
-                        Console.WriteLine("fin tour : " + i);
                         adventurer.flagAction = false;
                     }
                     else
                     {
                         char action = adventurer.roadPath[i];
-                        Console.WriteLine(action);
                         if (action == 'A')
                         {
-                            Console.WriteLine(adventurer.orientation);
-                            Console.ReadLine();
-                            Cell ActualCell = map[adventurer.y, adventurer.x];
-                            newX = adventurer.y + simulation.dicOrientation[adventurer.orientation][0];
-                            newY = adventurer.x + simulation.dicOrientation[adventurer.orientation][1];
-                            if (simulation.verifNewCord(newX, newY, sizeX, sizeY) && (map[newY, newX] == null) || map[newY, newX].isWalkable)
+                           
+                            //Calcul the new position
+                            newX = adventurer.x + simulation.dicOrientation[adventurer.orientation][0];
+                            newY = adventurer.y + simulation.dicOrientation[adventurer.orientation][1];
+
+                            //check out of bond and if it is a wakable cell and if user is not on this coord
+                            if (simulation.verifNewCord(newX, newY, sizeX, sizeX) && (map[newY, newX] == null || map[newY, newX].isWalkable))
                             {
                                 adventurer.x = newX;
                                 adventurer.y = newY;
-                                if (map[newX, newY] != null)
+                                if (map[newY, newX] != null)
                                 {
-                                    map[newX, newY].onTheCell();
+                                    map[newY, newX].onTheCell();
                                 }
                             }
                         }
@@ -91,8 +90,6 @@ namespace CarteAuTresor
                         }
                     }
                 }
-                printMap();
-                Console.ReadLine();
                 i++;
             }
         }
@@ -134,7 +131,10 @@ namespace CarteAuTresor
             return (line.Split('-'));
         }
 
-        
+        public string outPutInfo()
+        {
+            return ("C - " + sizeY + " - " + sizeX);
+        }
 
     }
 }

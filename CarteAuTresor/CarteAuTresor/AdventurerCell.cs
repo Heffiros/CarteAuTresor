@@ -13,7 +13,7 @@ namespace CarteAuTresor
         public int x;
         public int y;
         public bool flagAction = true;
-
+        public int nbTreasure = 0;
 
         public AdventurerCell(string name, string orientation, string roadPath, int x, int y)
         {
@@ -32,7 +32,7 @@ namespace CarteAuTresor
 
         public override string affCell()
         {
-            return "A("+ name + ")    " ;
+            return name + " - " +  y  +  " - " + x  + " - "+ orientation + " - " + nbTreasure  ;
         }
 
         public  void  adventurerProfile()

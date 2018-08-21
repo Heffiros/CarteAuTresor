@@ -25,7 +25,7 @@ namespace CarteAuTresor
         //Check if we are not out of bounds
         public bool verifNewCord(int x, int y, int sizeX, int sizeY)
         {
-            if (x > sizeX - 1 || y > sizeY)
+            if (x > sizeX - 1 || y > sizeY - 1)
             {
                 Console.WriteLine("perdu");
                 return false;

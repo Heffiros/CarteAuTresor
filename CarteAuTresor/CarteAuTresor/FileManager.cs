@@ -10,7 +10,7 @@ namespace CarteAuTresor
         private string pathToFile;
         private string pathToOutFile;
         private string listOfcellOption = "CMTA";
-        private Map map;
+        public Map map;
 
         public FileManager(string pathToFile)
         {
@@ -52,14 +52,63 @@ namespace CarteAuTresor
                 }
                 counter++;
             }
-            map.printMap();
-            Console.ReadLine();
-            map.mapSimulationPath();
-            //map.printMap();
             file.Close();
-            System.Console.WriteLine("There were {0} lines.", counter);
         }
 
+        public bool createOutputFile()
+        {
+            
+            var filename = pathToFile.Split('\\');
+            filename[filename.Length - 1] = "result.txt";
+            pathToOutFile = string.Join('\\', filename);
+            
+            if (File.Exists(pathToOutFile))
+            {
+                File.Delete(pathToOutFile);
+            }
+
+            using (StreamWriter sw = File.CreateText(pathToOutFile))
+            {
+                //Write first line size map
+                sw.WriteLine(map.outPutInfo());
+
+                //aff all information
+                int rowLength = map.map.GetLength(0);
+                int colLength = map.map.GetLength(1);
+
+                for (int i = 0; i < rowLength; i++)
+                {
+                    for (int j = 0; j < colLength; j++)
+                    {
+                        if (map.map[i, j] != null)
+                        {
+                            if (map.map[i,j].GetType().Equals("CarteAuTresor.TreasureCell"))
+                            {
+                                sw.WriteLine(map.map[i, j].affCell() + j + " - " + i);
+                            }
+                            else
+                            {
+                                sw.WriteLine("T - " + j + " - " + i + " - " + map.map[i, j].affCell());
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                }
+
+
+                //Write information of all adventurer
+                foreach (AdventurerCell adventurer in map.AdventureCell)
+                {
+                    sw.WriteLine(adventurer.affCell());
+                }
+
+
+            }
+
+            return true;
+        }
 
     }
 }

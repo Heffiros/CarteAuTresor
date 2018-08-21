@@ -6,7 +6,7 @@ namespace CarteAuTresor
 {
     class TreasureCell : Cell
     {
-        private int nbTreasure;
+        public int nbTreasure;
 
         public TreasureCell(int nbTreasure)
         {
@@ -16,7 +16,7 @@ namespace CarteAuTresor
 
         public override string affCell()
         {
-            return "T(" + nbTreasure.ToString() + ")    ";
+            return nbTreasure.ToString();
         }
 
         public override void onTheCell()
