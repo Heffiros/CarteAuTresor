@@ -52,8 +52,10 @@ namespace CarteAuTresor
                 }
                 counter++;
             }
-            //map.printMap();
+            map.printMap();
+            Console.ReadLine();
             map.mapSimulationPath();
+            //map.printMap();
             file.Close();
             System.Console.WriteLine("There were {0} lines.", counter);
         }

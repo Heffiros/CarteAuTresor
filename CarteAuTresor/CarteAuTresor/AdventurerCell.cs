@@ -12,6 +12,7 @@ namespace CarteAuTresor
         public char orientation;
         public int x;
         public int y;
+        public bool flagAction = true;
 
 
         public AdventurerCell(string name, string orientation, string roadPath, int x, int y)
@@ -24,7 +25,7 @@ namespace CarteAuTresor
             this.isWalkable = true;
         }
 
-        public override int onTheCell()
+        public override void onTheCell()
         {
             throw new NotImplementedException();
         }

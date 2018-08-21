@@ -19,9 +19,12 @@ namespace CarteAuTresor
             return "T(" + nbTreasure.ToString() + ")    ";
         }
 
-        public override int onTheCell()
+        public override void onTheCell()
         {
-            throw new NotImplementedException();
+            if (nbTreasure != 0)
+            {
+                nbTreasure--;
+            }
         }
     }
 }

@@ -11,9 +11,9 @@ namespace CarteAuTresor
             this.isWalkable = false;
         }
 
-        public override int onTheCell()
+        public override void onTheCell()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         

@@ -36,7 +36,7 @@ namespace CarteAuTresor
             else if (lineOpt[0] == "A")
             {
                 AdventurerCell adventurer = new AdventurerCell(lineOpt[1], lineOpt[4], lineOpt[5], Int32.Parse(lineOpt[2]), Int32.Parse(lineOpt[3]));
-                map[Int32.Parse(lineOpt[3]), Int32.Parse(lineOpt[2])] = adventurer; 
+                //map[Int32.Parse(lineOpt[3]), Int32.Parse(lineOpt[2])] = adventurer; 
                 AdventureCell.Add(adventurer);
             }
             return true;
@@ -46,39 +46,54 @@ namespace CarteAuTresor
         {
             int actualX, newX;
             int actualY, newY;
+            int i = 0;
             Simulation simulation = new Simulation();
-
-            foreach (AdventurerCell adventurer in AdventureCell)
+            
+            while (AdventureCell.FindAll(adventurer => adventurer.flagAction == true).Count != 0)
             {
-                foreach (char action in adventurer.roadPath)
+                foreach (AdventurerCell adventurer in AdventureCell)
                 {
-                    if (action == 'A')
+                    if (i > adventurer.roadPath.Length - 1)
                     {
-                        //Console.WriteLine("On bouge");
-                        actualX = adventurer.x;
-                        actualY = adventurer.y;
-                        newX = actualX + simulation.dicOrientation[adventurer.orientation][0];
-                        newY = actualY + simulation.dicOrientation[adventurer.orientation][1];
-                        if (simulation.verifNewCord(newX, newY, sizeX, sizeY))
+                        Console.WriteLine("fin tour : " + i);
+                        adventurer.flagAction = false;
+                    }
+                    else
+                    {
+                        char action = adventurer.roadPath[i];
+                        Console.WriteLine(action);
+                        if (action == 'A')
                         {
-                            map[actualY, actualX] = null;
-                            map[newY, newX] = adventurer;
-                            adventurer.x = newX;
-                            adventurer.y = newY;
-                        } 
+                            Console.WriteLine(adventurer.orientation);
+                            Console.ReadLine();
+                            Cell ActualCell = map[adventurer.y, adventurer.x];
+                            newX = adventurer.y + simulation.dicOrientation[adventurer.orientation][0];
+                            newY = adventurer.x + simulation.dicOrientation[adventurer.orientation][1];
+                            if (simulation.verifNewCord(newX, newY, sizeX, sizeY) && (map[newY, newX] == null) || map[newY, newX].isWalkable)
+                            {
+                                adventurer.x = newX;
+                                adventurer.y = newY;
+                                if (map[newX, newY] != null)
+                                {
+                                    map[newX, newY].onTheCell();
+                                }
+                            }
+                        }
+                        else if (action == 'D')
+                        {
+                            adventurer.orientation = simulation.findNewOrientation(adventurer.orientation, 1);
+                            //adventurer.adventurerProfile();
+                        }
+                        else if (action == 'G')
+                        {
+                            adventurer.orientation = simulation.findNewOrientation(adventurer.orientation, -1);
+                            //adventurer.adventurerProfile();
+                        }
                     }
-                    else if (action == 'D')
-                    {
-                        adventurer.orientation =  simulation.findNewOrientation(adventurer.orientation, 1);
-                        //adventurer.adventurerProfile();
-                    }
-                    else if (action == 'G')
-                    {
-                        adventurer.orientation = simulation.findNewOrientation(adventurer.orientation, -1);
-                        //adventurer.adventurerProfile();
-                    }
-                    this.printMap();
                 }
+                printMap();
+                Console.ReadLine();
+                i++;
             }
         }
         
@@ -91,15 +106,22 @@ namespace CarteAuTresor
             {
                 for (int j = 0; j < colLength; j++)
                 {
-                    if (map[i, j] != null)
+                    AdventurerCell test = AdventureCell.Find(adventurer => adventurer.x == j && adventurer.y == i);
+                    if (test == null)
                     {
-                        Console.Write(map[i, j].affCell());
+                        if (map[i, j] != null)
+                        {
+                            Console.Write(map[i, j].affCell());
+                        }
+                        else
+                        {
+                            Console.Write(string.Format("{0} ", /*map[i, j]*/ "   .   "));
+                        }
                     }
                     else
                     {
-                        Console.Write(string.Format("{0} ", /*map[i, j]*/ "   .   "));
-                    }
-                    
+                        Console.Write(test.affCell());
+                    } 
                 }
                 Console.Write(Environment.NewLine + Environment.NewLine);
             }
