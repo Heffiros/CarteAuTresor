@@ -99,7 +99,7 @@ namespace CarteAuTresor
 
 
                 //Write information of all adventurer
-                foreach (AdventurerCell adventurer in map.AdventureCell)
+                foreach (Adventurer adventurer in map.AdventureCell)
                 {
                     sw.WriteLine(adventurer.affCell());
                 }

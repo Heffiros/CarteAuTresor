@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CarteAuTresor
 {
-    class AdventurerCell : Cell
+    class Adventurer
     {
         
         private string name;
@@ -14,8 +14,9 @@ namespace CarteAuTresor
         public int y;
         public bool flagAction = true;
         public int nbTreasure = 0;
+        public bool isWalkable;
 
-        public AdventurerCell(string name, string orientation, string roadPath, int x, int y)
+        public Adventurer(string name, string orientation, string roadPath, int x, int y)
         {
             this.name = name;
             this.orientation = orientation[0];
@@ -24,13 +25,9 @@ namespace CarteAuTresor
             this.y = y;
             this.isWalkable = true;
         }
+               
 
-        public override void onTheCell()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string affCell()
+        public  string affCell()
         {
             return name + " - " +  y  +  " - " + x  + " - "+ orientation + " - " + nbTreasure  ;
         }

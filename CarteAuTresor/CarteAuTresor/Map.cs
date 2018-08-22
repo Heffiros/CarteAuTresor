@@ -8,7 +8,7 @@ namespace CarteAuTresor
     {
         public Cell[,] map;
         public int sizeX, sizeY;
-        public List<AdventurerCell> AdventureCell = new List<AdventurerCell>();
+        public List<Adventurer> AdventureCell = new List<Adventurer>();
         
 
         public Map(String line)
@@ -35,7 +35,7 @@ namespace CarteAuTresor
             }
             else if (lineOpt[0] == "A")
             {
-                AdventurerCell adventurer = new AdventurerCell(lineOpt[1], lineOpt[4], lineOpt[5], Int32.Parse(lineOpt[3]), Int32.Parse(lineOpt[2]));
+                Adventurer adventurer = new Adventurer(lineOpt[1], lineOpt[4], lineOpt[5], Int32.Parse(lineOpt[3]), Int32.Parse(lineOpt[2]));
                 //map[Int32.Parse(lineOpt[3]), Int32.Parse(lineOpt[2])] = adventurer; 
                 AdventureCell.Add(adventurer);
             }
@@ -49,10 +49,12 @@ namespace CarteAuTresor
             int actualY, newY;
             int i = 0;
             
+            //loop simulation continu until all action has been done
             while (AdventureCell.FindAll(adventurer => adventurer.flagAction == true).Count != 0)
             {
-                foreach (AdventurerCell adventurer in AdventureCell)
+                foreach (Adventurer adventurer in AdventureCell)
                 {
+                    //if we do more loop than action tab size all actions of the adventure has been done
                     if (i > adventurer.roadPath.Length - 1)
                     {
                         adventurer.flagAction = false;
@@ -70,23 +72,23 @@ namespace CarteAuTresor
                             //check out of bond and if it is a wakable cell and if user is not on this coord
                             if (simulation.verifNewCord(newX, newY, sizeX, sizeX) && (map[newY, newX] == null || map[newY, newX].isWalkable))
                             {
+                                //Atribute new cord on the adventurer
                                 adventurer.x = newX;
                                 adventurer.y = newY;
                                 if (map[newY, newX] != null)
                                 {
-                                    map[newY, newX].onTheCell();
+                                    //Update treasure on cell and adventurer if needed
+                                    adventurer.nbTreasure += map[newY, newX].onTheCell();
                                 }
                             }
                         }
                         else if (action == 'D')
                         {
                             adventurer.orientation = simulation.findNewOrientation(adventurer.orientation, 1);
-                            //adventurer.adventurerProfile();
                         }
                         else if (action == 'G')
                         {
                             adventurer.orientation = simulation.findNewOrientation(adventurer.orientation, -1);
-                            //adventurer.adventurerProfile();
                         }
                     }
                 }
@@ -94,6 +96,7 @@ namespace CarteAuTresor
             }
         }
         
+        //Debug fonction to see map evolution
         public void printMap()
         {
             int rowLength = map.GetLength(0);
@@ -103,7 +106,7 @@ namespace CarteAuTresor
             {
                 for (int j = 0; j < colLength; j++)
                 {
-                    AdventurerCell test = AdventureCell.Find(adventurer => adventurer.x == j && adventurer.y == i);
+                    Adventurer test = AdventureCell.Find(adventurer => adventurer.x == j && adventurer.y == i);
                     if (test == null)
                     {
                         if (map[i, j] != null)
@@ -125,12 +128,14 @@ namespace CarteAuTresor
         }
 
 
+        //Clean line to have a good parth
         private string[] cleanStringOption(String line)
         {
             line = line.Replace(" ", string.Empty);
             return (line.Split('-'));
         }
 
+        //output file data 
         public string outPutInfo()
         {
             return ("C - " + sizeY + " - " + sizeX);

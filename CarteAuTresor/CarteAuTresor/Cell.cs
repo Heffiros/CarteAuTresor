@@ -11,7 +11,7 @@ namespace CarteAuTresor
         public bool isWalkable;
 
 
-        abstract public void onTheCell();
+        abstract public int onTheCell();
         abstract public string affCell();
     }
 }

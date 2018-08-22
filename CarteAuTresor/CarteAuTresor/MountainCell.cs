@@ -11,9 +11,10 @@ namespace CarteAuTresor
             this.isWalkable = false;
         }
 
-        public override void onTheCell()
+        //no tresor on mountain cell
+        public override int onTheCell()
         {
-            //throw new NotImplementedException();
+            return 0;
         }
 
         

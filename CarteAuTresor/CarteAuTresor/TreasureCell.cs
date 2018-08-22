@@ -19,11 +19,17 @@ namespace CarteAuTresor
             return nbTreasure.ToString();
         }
 
-        public override void onTheCell()
+        //on Treasure cell delete one if adventure path on this
+        public override int  onTheCell()
         {
             if (nbTreasure != 0)
             {
                 nbTreasure--;
+                return 1;
+            }
+            else
+            {
+                return 0;
             }
         }
     }
